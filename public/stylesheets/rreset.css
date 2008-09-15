@@ -241,6 +241,16 @@ div.photoset h2.title_with_image {
   h2.title_with_image a:hover {
     color: #cc3ab2;
   }
+  
+div#solo_rreset {
+  text-align: center;
+}  
+
+div#solo_rreset div.photoset {
+  float: none;
+  margin: 10px auto;
+  clear: both;
+}
 
 /* Customize page */
 

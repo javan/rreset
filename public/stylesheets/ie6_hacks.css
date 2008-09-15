@@ -1,3 +1,4 @@
+/* Why even bother?! */
 #footer {
   position: static;
 }
@@ -6,7 +7,12 @@
   display: inline;
 }
 
-
 #photosets, .fluid_container, #content {
   zoom: 1;
+}
+
+div#solo_rreset {
+  height: 200px;
+  width: 100%;
+  margin-left: -230px;
 }

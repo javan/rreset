@@ -1,0 +1,8 @@
+<div id="rreset_<%= rreset.id %>" class="photoset">
+  <h2 class="title_with_image">
+    <a href="<%= set_path(:set_id => rreset.flickr_id) %>" class="noborder">
+      <span><%= rreset.flickr_title %></span>
+      <%= image_tag rreset.image_path, :alt => '' %>
+    </a>
+  </h2>
+</div>
