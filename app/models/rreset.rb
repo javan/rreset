@@ -35,8 +35,8 @@ class Rreset < ActiveRecord::Base
     rreset = find_by_flickr_id(flickr_id, *args)
     raise ActiveRecord::RecordNotFound unless rreset
     
-    # If it hasn't been updated in a day, call Flickr to see if any attributes have changed
-    if rreset.updated_at < 1.day.ago
+    # If it hasn't been updated recently, call Flickr to see if any attributes have changed
+    if rreset.updated_at < 3.hours.ago
       updated_set = Flickr.photosets_get_info(rreset.flickr_id)
       new_rreset  = rreset.user.rresets.build(updated_set.prefix_keys_with('flickr_'))
       rreset.flickr_owner ||= rreset.user.flickr_nsid
