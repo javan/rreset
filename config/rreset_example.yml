@@ -1,0 +1,23 @@
+development:
+  flickr:
+    api_key: 'your flickr api key'
+    secret: 'your flickr secret'
+  session_key: '_rreset.rails_session'
+  session_secret: 'generate a long string of random characters here'
+  hoptoad_api_key: 'hoptoad api key'
+  
+test:
+  flickr:
+    api_key: 'your flickr api key'
+    secret: 'your flickr secret'
+  session_key: '_rreset.rails_session'
+  session_secret: 'generate a long string of random characters here'
+  hoptoad_api_key: 'hoptoad api key'
+  
+production:
+  flickr:
+    api_key: 'your flickr api key'
+    secret: 'your flickr secret'
+  session_key: '_rreset.rails_session'
+  session_secret: 'generate a long string of random characters here'
+  hoptoad_api_key: 'hoptoad api key'
