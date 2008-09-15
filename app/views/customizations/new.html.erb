@@ -1,0 +1,21 @@
+<%- title('Customize your rresets') -%>
+<div id="customize_container">
+
+  <h1>Customize your rresets</h1>
+
+  <p class="notice">If you want to customize the way your photo pages look and work, you can add css and/or javascript to the textarea below. Do not in any way alter the footer (the gray text at the bottom of every page). You must leave a clear, obvious link to the original Flickr photo somewhere on the page. Any suspicious or malicious code will result in an immediate, permanent ban from Rreset.</p>
+
+  <% form_for current_user, :url => customizations_path, :html => { :method => :post }  do |f| %>
+  <pre>
+  <%=h render :partial => 'sample_header' %>
+  </pre>
+    <%= f.text_area :custom_header_html %>
+    <p class="notice" style="margin-top: 8px">
+     <%= f.submit 'Save' %> <%= link_to 'or cancel', settings_path %>
+    </p>
+  <pre>
+  <%=h render :partial => 'sample_footer' %>
+  </pre>
+  
+</div>
+<% end %>

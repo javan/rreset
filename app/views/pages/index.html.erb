@@ -1,0 +1,14 @@
+<%= render :partial => 'shared/logo' %>
+
+<div id="home">
+  <p>Rreset is like a gallery wall for your Flickr photosets. Leave it white or decorate however you&rsquo;d like.<p>
+  
+  <% if logged_in? %>
+    <p style="font-size: 14px" class="notice">
+    Hello, <%= current_user.flickr_username %>.<br />
+    Head over to your <%= link_to 'settings page', settings_path %> or <%= link_to 'log out', logout_path %>.
+    </p>  
+  <% else %>
+    <p>To get started,<br /> <%= link_to image_tag('auth_button.png', :alt => 'authenticate to Flickr.'), Flickr.login_url, :class => 'noborder' %><br /><em style="font-size: 12px">(requires a Flickr account)</em></p>
+  <% end %>
+</div>

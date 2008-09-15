@@ -1,0 +1,5 @@
+<% if @saved %>
+  $('#photoset_<%= @rreset.flickr_id %> .actions').html('<%= escape_javascript render(:partial => 'rresets/displayed', :locals => { :rreset => @rreset }) %>');
+<% else %>
+  alert('Oops, there was a problem: <%= escape_javascript @rreset.errors.full_messages.to_sentence %>');
+<% end %>

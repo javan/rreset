@@ -1,0 +1,4 @@
+<% form_for Rreset.new, :html => { :class => 'remote' } do |f| %>
+  <%= hidden_field_tag 'photoset_id', photoset_id %>
+  <%= f.submit 'Display', :class => 'text-button' %>
+<% end %>

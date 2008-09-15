@@ -1,0 +1,12 @@
+#footer {
+  position: static;
+}
+
+.photoset {
+  display: inline;
+}
+
+
+#photosets, .fluid_container, #content {
+  zoom: 1;
+}

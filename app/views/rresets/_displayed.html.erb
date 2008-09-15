@@ -1,0 +1,6 @@
+<div class="displayed_actions">
+  <%= link_to 'view', set_path(:set_id => rreset.flickr_id), :class => 'view' %>
+  <% form_for(:rreset, :url => rreset_path(rreset), :html => { :method => :delete, :class => 'remote' }) do |f| %>
+    <%= f.submit "Don&rsquo;t display", :class => 'text-button' %>
+  <% end %>
+</div>

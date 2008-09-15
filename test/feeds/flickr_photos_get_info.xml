@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<photo id="2827050884" secret="68ba1e9bcb" server="3279" farm="4" dateuploaded="1220497642" isfavorite="0" license="1" rotation="0" originalsecret="0101206da5" originalformat="jpg" media="photo">
+	<owner nsid="51035706609@N01" username="javan" realname="Javan Makhmali" location="Portland, Oregon" />
+	<title>Gwenaëlle's new lifestyle</title>
+	<description />
+	<visibility ispublic="1" isfriend="0" isfamily="0" />
+	<dates posted="1220497642" taken="2008-09-03 20:07:22" takengranularity="0" lastupdate="1220505162" />
+	<editability cancomment="0" canaddmeta="0" />
+	<usage candownload="1" canblog="0" canprint="0" />
+
+	<comments>1</comments>
+	<notes />
+	<tags />
+	<urls>
+		<url type="photopage">http://www.flickr.com/photos/javan/2827050884/</url>
+	</urls>
+</photo>
+</rsp>

@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<%= stylesheet_link_tag 'rreset' %>
+<!--[if lt IE 7]><%= stylesheet_link_tag 'ie6_hacks' %><![endif]-->
+<script type="text/javascript" charset="utf-8" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript" charset="utf-8">google.load('jquery', '1');</script>
+<%= javascript_include_tag 'rreset' %>
+<%= yield :head %>
+<title><%= (yield :title).blank? ? 'Rreset &mdash; A gallery wall for your Flickr photosets.' : "#{yield :title} &mdash; Rreset" %></title>
+</head>
+
+<body>
+<div id="container">
+  <div id="content">
+    <%= flash_messages %>
+    <%= yield %>
+  </div>
+  <div id="footer"><%= yield :footer %>&copy; <%= Time.now.year %> <%= link_to 'Rreset', root_path %>
+    <%- if logged_in? -%>
+      &bull; <%= link_to 'Settings', settings_path %> 
+      &bull; <%= link_to 'Customize', customize_path %> 
+      &bull; <%= link_to 'Log out', logout_path %>
+    <% elsif !current_page?(root_path) %>
+      &bull; <%= link_to 'Log in / join', root_path %>
+    <% end %>
+  </div>
+</div>
+
+</body>
+</html>

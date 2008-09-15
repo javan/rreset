@@ -1,0 +1,63 @@
+<%- title("#{photo_title(@photo)}, part of the &#8220;#{@rreset.flickr_title}&#8221; rreset by #{@user.flickr_username}") -%>
+
+<p id="photo">
+  <%- script_image_tag = '<img src="" id="script_photo" />' -%>
+  <%- if @context[:prevphoto] -%>
+    <%= link_to script_image_tag,
+                photo_path(:set_id => params[:set_id], :id => @context[:prevphoto][:id]),
+                :title => 'Previous photo', :class => 'noborder' %>
+  <%- else -%>
+    <%= script_image_tag %>
+  <%- end -%>
+  <noscript>
+    <%= image_tag((@sizes[:medium][:source] rescue @sizes[:original][:source]), :id => 'noscript_photo') %>
+  </noscript>
+</p>
+
+<p id="photo_nav" class="photo_width">
+  <%= link_to '<span>prev</span>', 
+              photo_path(:set_id => params[:set_id], :id => @context[:prevphoto][:id]), 
+              :id => 'photo_prev',
+              :class => 'photo_nav_link' if @context[:prevphoto] %>
+  <span id="photo_details">
+    <%= link_to photo_title(@photo), @photo[:urls][:url], :title => "See this photo's page on Flickr.", :id => 'flickr_link' %>
+    <em>by</em> 
+    <%= link_to photo_owner(@photo[:owner]), person_path(:nsid => @user.flickr_nsid), :id => 'photo_owner' %>
+    <%- unless @photo[:comments].to_i.zero? -%>
+      <span id="photo_commnet">
+      &ndash; <%= link_to pluralize(@photo[:comments].to_i, 'comment'), 
+                          @photo[:urls][:url], 
+                          :title => "See this photos's comments on Flickr.", 
+                          :id => 'flickr_comments_link' %>
+      </span>
+    <%- end -%>
+  </span>
+  <%= link_to '<span>next</span>', 
+              photo_path(:set_id => params[:set_id], :id => @context[:nextphoto][:id]), 
+              :id => 'photo_next',
+              :class => 'photo_nav_link' if @context[:nextphoto] %>
+</p>
+
+<%- content_for :head do -%>
+<script type="text/javascript" charset="utf-8">
+  $().ready(function(){
+    Rreset.initialize_photo_page();
+  });
+  Rreset.Photo = {
+    info: <%= @photo.to_json %>,
+    sizes: <%= @sizes.to_json %>,
+    context: <%= @context.to_json(:except => :stat) %>,
+    photoset: <%= @rreset.to_json(:except => [:created_at, :updated_at, :id, :user_id]) %>
+  };
+</script>
+<%- unless @user.custom_header_html.blank?  -%>
+<!-- <custom> -->
+  <%= @user.custom_header_html %>
+<!-- </custom> -->
+<%- end -%>
+<%- end -%>
+
+<%- content_for :footer do -%>
+  This photo has copyright restrictions by its owner 
+  (<%= link_to_function 'show', '$(this).replaceWith($(this).next().show())', :id => 'show_license', :style => 'display:none' %><span id="license"><%= link_to_unless @license[:url].blank?, @license[:name], @license[:url] %></span>).<br />
+<%- end -%>

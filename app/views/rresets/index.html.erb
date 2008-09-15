@@ -1,0 +1,24 @@
+<%- title("#{@user.flickr_username}&rsquo;s rresets") -%>
+<%= render :partial => 'shared/logo' %>
+
+<% if @user.rresets.size.zero? %>
+  <p>It doesn&rsquo;t look like <%= @user.flickr_username %> has any rresets to share.</p>
+<% else %>
+  <p>Here are <%= @user.flickr_username %>&rsquo;s rresets.</p>
+<% end %>
+
+<div class="fluid_container margin_top_20">
+  <div class="margin_top_20" style="zoom: 1">
+    <% for rreset in @user.rresets %>
+      <div id="rreset_<%= rreset.id %>" class="photoset">
+        <h2 class="title_with_image">
+          <a href="<%= set_path(:set_id => rreset.flickr_id) %>" class="noborder">
+            <span><%= rreset.flickr_title %></span>
+            <%= image_tag rreset.image_path, :alt => '' %>
+          </a>
+        </h2>
+      </div>
+    <% end %>
+    <br style="clear:both" />
+  </div>
+</div>

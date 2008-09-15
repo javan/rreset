@@ -1,0 +1,5 @@
+<% if @destroyed %>
+  $('#photoset_<%= @rreset.flickr_id %> .actions').html('<%= escape_javascript render(:partial => 'rresets/not_displayed', :locals => { :photoset_id => @rreset.flickr_id }) %>');
+<% else %>
+  alert('<%= flash[:error] %>');
+<% end %>

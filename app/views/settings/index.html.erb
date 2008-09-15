@@ -1,0 +1,41 @@
+<%- title('Your settings') -%>
+<div class="fluid_container margin_top_20">
+  <h1>
+    Here are your Flickr photosets.<br />
+    Which would you like to display on Rreset?
+  </h1>
+  
+  <% if @photosets.empty? %>
+    <p>It looks like you don't have any photosets on Flickr. Try creating one and then come back.</p>
+  <% end %>
+    
+  <div id="photosets" class="margin_top_20">
+    <% for photoset in @photosets %>
+      <div id="photoset_<%= photoset[:id] %>" class="photoset" style="background-image: url(<%= Rreset.new(photoset.prefix_keys_with('flickr_')).image_path %>);">
+        <h2 class="title"><%= photoset[:title] %></h2>
+        <div class="actions">
+          <% if @rresets.keys.include?(photoset[:id]) %>
+            <%= render :partial => 'rresets/displayed', :locals => { :rreset => @rresets[photoset[:id]] } %>
+          <% else %>
+            <%= render :partial => 'rresets/not_displayed', :locals => { :photoset_id => photoset[:id] } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <br style="clear:both" />
+  </div>
+  
+  <p class="notice" style="text-align: center; margin-top: 60px">If you&rsquo;re css or javascript savy, you can <%= link_to 'customize your rresets', customize_path %>.</p>
+    
+  <div id="delete_account">
+    <%= button_to 'Delete your Rreset account', 
+                  user_path(current_user), 
+                  :confirm => 'Are you sure you want to delete your Rreset account? (none of your Flickr photos or data will be harmed)', 
+                  :method => :delete %>
+    <em>(none of your Flickr photos or data will be harmed)</em>
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  $().ready(Rreset.setup_remote_forms);
+</script>

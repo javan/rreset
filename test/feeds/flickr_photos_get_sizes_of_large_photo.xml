@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<sizes canblog="0" canprint="0" candownload="1">
+	<size label="Square" width="75" height="75" source="http://farm1.static.flickr.com/41/76146096_a1d8cad317_s.jpg" url="http://www.flickr.com/photos/javan/76146096/sizes/sq/" media="photo" />
+	<size label="Thumbnail" width="100" height="66" source="http://farm1.static.flickr.com/41/76146096_a1d8cad317_t.jpg" url="http://www.flickr.com/photos/javan/76146096/sizes/t/" media="photo" />
+	<size label="Small" width="240" height="158" source="http://farm1.static.flickr.com/41/76146096_a1d8cad317_m.jpg" url="http://www.flickr.com/photos/javan/76146096/sizes/s/" media="photo" />
+	<size label="Medium" width="500" height="330" source="http://farm1.static.flickr.com/41/76146096_a1d8cad317.jpg" url="http://www.flickr.com/photos/javan/76146096/sizes/m/" media="photo" />
+	<size label="Large" width="1024" height="676" source="http://farm1.static.flickr.com/41/76146096_a1d8cad317_b.jpg" url="http://www.flickr.com/photos/javan/76146096/sizes/l/" media="photo" />
+	<size label="Original" width="4209" height="2780" source="http://farm1.static.flickr.com/41/76146096_a1d8cad317_o.jpg" url="http://www.flickr.com/photos/javan/76146096/sizes/o/" media="photo" />
+</sizes>
+</rsp>
