@@ -10,5 +10,7 @@
     </p>  
   <% else %>
     <p>To get started,<br /> <%= link_to image_tag('auth_button.png', :alt => 'authenticate to Flickr.'), Flickr.login_url, :class => 'noborder' %><br /><em style="font-size: 12px">(requires a Flickr account)</em></p>
+    
+    <p>If your curious what a rreset<br /> looks like, <%= link_to 'check out Javan&rsquo;s', person_path(:nsid => '51035706609@N01') %>.</p>
   <% end %>
 </div>

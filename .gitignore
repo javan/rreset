@@ -3,4 +3,5 @@ log/*.log
 tmp/**/*
 config/database.yml
 config/rreset.yml
+config/capfile.rb
 db/*.sqlite3
