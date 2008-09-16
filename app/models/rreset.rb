@@ -31,19 +31,30 @@ class Rreset < ActiveRecord::Base
     "http://farm#{flickr_farm}.static.flickr.com/#{flickr_server}/#{flickr_primary}_#{flickr_secret}_#{size}.jpg"
   end
   
-  def self.find_with_update_by_flickr_id!(flickr_id, *args)
+  def self.find_by_flickr_id_and_sync!(flickr_id, *args)
     rreset = find_by_flickr_id(flickr_id, *args)
     raise ActiveRecord::RecordNotFound unless rreset
     
-    # If it hasn't been updated recently, call Flickr to see if any attributes have changed
-    if rreset.updated_at < 3.hours.ago
-      updated_set = Flickr.photosets_get_info(rreset.flickr_id)
-      new_rreset  = rreset.user.rresets.build(updated_set.prefix_keys_with('flickr_'))
-      rreset.flickr_owner ||= rreset.user.flickr_nsid
-      rreset.update_attributes!(new_rreset.attributes) if new_rreset.valid?
-    end
-    
-    rreset
+    if rreset.needs_syncing?
+      rreset.sync_with_flickr!
+    else
+      rreset
+    end 
+  end
+  
+  def sync_with_flickr!
+    # Get set info from Flickr
+    updated_set = Flickr.photosets_get_info(self.flickr_id)
+    # Build a new rreset, but don't save it. It's just used for updating self.
+    new_rreset  = self.user.rresets.build(updated_set.prefix_keys_with('flickr_'))
+    self.flickr_owner ||= self.user.flickr_nsid
+    # Imporant to call validate to fire off the before_validation callback
+    self.update_attributes!(new_rreset.attributes) if new_rreset.valid?
+    self
+  end
+  
+  def needs_syncing?
+    self.updated_at < 3.hours.ago
   end
   
 private
