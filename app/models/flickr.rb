@@ -132,9 +132,13 @@ private
   def get(url)
     RAILS_DEFAULT_LOGGER.info("Calling #{url}")
     uri = URI.parse(url)
-    response = Net::HTTP.start(uri.host, uri.port) do |http|
-      http.read_timeout = 6 #seconds
-      http.get(uri.request_uri)
+    begin
+      response = Net::HTTP.start(uri.host, uri.port) do |http|
+        http.read_timeout = 6 #seconds
+        http.get(uri.request_uri)
+      end
+    rescue Timeout::Error => e
+      raise ConnectionError.new(e.message)
     end
     
     handle_response(response)
