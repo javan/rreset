@@ -10,10 +10,10 @@ class RresetsController < ApplicationController
   def show
     respond_to do |format|
       format.atom do 
-        @rreset = Rreset.find_by_flickr_id(params[:id])
+        @rreset = Rreset.find_by_flickr_id(params[:set_id])
         raise ActiveRecord::RecordNotFound unless @rreset
-        # Gets (up to) the 30 most recent photos ordered from new to old
-        @photos = Flickr.photosets_get_photos(params[:id]).reverse[0,30]
+        # Gets (up to) the 50 most recent photos ordered from new to old
+        @photos = Flickr.photosets_get_photos(params[:set_id]).reverse[0,50]
       end
     end
   end

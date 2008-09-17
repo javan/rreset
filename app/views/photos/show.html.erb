@@ -39,6 +39,7 @@
 </p>
 
 <%- content_for :head do -%>
+<%= auto_discovery_link_tag(:atom, formatted_set_url(:set_id => @rreset.flickr_id, :format => :atom), :title => 'Atom feed for this rreset') %>
 <script type="text/javascript" charset="utf-8">
   $().ready(function(){
     Rreset.initialize_photo_page();

@@ -1,5 +1,5 @@
 atom_feed do |feed|
-  feed.title("#{@rreset.flickr_title} - on Rreset")
+  feed.title("#{@rreset.flickr_title}, by #{@rreset.user.display_name} - on Rreset")
   feed.updated(@rreset.updated_at)
 
   for photo in @photos
