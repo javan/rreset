@@ -17,4 +17,12 @@ class User < ActiveRecord::Base
   attr_readonly :flickr_nsid
   validates_presence_of :flickr_nsid, :flickr_username
   validates_uniqueness_of :flickr_nsid, :flickr_username
+  
+  def display_name
+    if flickr_fullname.blank?
+      flickr_username
+    else
+      flickr_fullname
+    end
+  end
 end
