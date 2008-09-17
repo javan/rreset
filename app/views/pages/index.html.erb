@@ -11,6 +11,6 @@
   <% else %>
     <p>To get started,<br /> <%= link_to image_tag('auth_button.png', :alt => 'authenticate to Flickr.'), Flickr.login_url, :class => 'noborder' %><br /><em style="font-size: 12px">(requires a Flickr account)</em></p>
     
-    <p style="font-size: 13px">If you&rsquo;re curious what a rreset looks like, <br /><%= link_to 'check out Javan&rsquo;s', person_path(:nsid => '51035706609@N01') %> or <%= link_to 'Aaron&rsquo;s', person_path(:nsid => '51222932@N00') %>.</p>
+    <p style="font-size: 13px">If you&rsquo;re curious what a rreset looks like, <br />check out <%= link_to 'Patrick&rsquo;s', person_path(:nsid => '13413608@N00') %>, <%= link_to 'Javan&rsquo;s', person_path(:nsid => '51035706609@N01') %> or <%= link_to 'Aaron&rsquo;s', person_path(:nsid => '51222932@N00') %>.</p>
   <% end %>
 </div>
