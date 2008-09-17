@@ -1,6 +1,6 @@
 class RresetsController < ApplicationController
   
-  before_filter :login_required, :except => :index
+  before_filter :login_required, :except => [:index, :show]
   
   def index
     @user = User.find_by_flickr_nsid(params[:nsid], :include => :rresets)
