@@ -3,5 +3,6 @@ log/*.log
 tmp/**/*
 config/database.yml
 config/rreset.yml
-config/capfile.rb
+config/gl_tail.yml
+config/deploy.rb
 db/*.sqlite3
