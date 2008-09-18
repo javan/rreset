@@ -121,7 +121,8 @@ private
   end
   
   def invoke!
-    resp = Hash.from_xml(get(build_url)).symbolize_keys! rescue false
+    xml = Rails.cache.fetch(build_url) { get(build_url) }
+    resp = Hash.from_xml(xml).symbolize_keys! rescue false
     if resp && resp[:rsp] && resp[:rsp][:stat] == 'ok'
       return resp[:rsp]
     else
