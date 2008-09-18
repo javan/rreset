@@ -1,8 +1,8 @@
-<%- title("#{@user.flickr_username}&rsquo;s rresets") -%>
+<%- title("#{@user.display_name}&rsquo;s rresets") -%>
 <%= render :partial => 'shared/logo' %>
 
 <% if @user.rresets.size.zero? %>
-  <p>It doesn&rsquo;t look like <%= @user.flickr_display %> has any rresets to share.</p>
+  <p>It doesn&rsquo;t look like <%= @user.display_name %> has any rresets to share.</p>
 <% elsif @user.rresets.size == 1 %>
   <p>Here is <%= @user.display_name %>&rsquo;s one lonely rreset.</p>
   <div id="solo_rreset">
