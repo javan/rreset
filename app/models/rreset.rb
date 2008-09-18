@@ -21,6 +21,7 @@
 class Rreset < ActiveRecord::Base
   belongs_to :user
   attr_accessor :flickr_owner
+  attr_accessor :flickr_videos # Flickr returns this from their api, but we don't actually save it
   attr_readonly :flickr_id, :created_at
   
   validates_presence_of :user_id, :flickr_farm, :flickr_photos, :flickr_primary, :flickr_server, :flickr_secret, :flickr_id, :newest_flickr_photo_id

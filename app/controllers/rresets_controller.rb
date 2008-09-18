@@ -9,11 +9,17 @@ class RresetsController < ApplicationController
   
   def show
     respond_to do |format|
-      format.atom do 
+      format.atom do
         @rreset = Rreset.find_by_flickr_id(params[:set_id])
         raise ActiveRecord::RecordNotFound unless @rreset
-        # Gets (up to) the 50 most recent photos ordered from new to old
-        @photos = Flickr.photosets_get_photos(params[:set_id]).reverse[0,50]
+        
+        # If the user hasn't set up feedburner OR it's actually FeedBurner knocking, generate the feed
+        if @rreset.feedburner_url.blank? || request.user_agent.match(/FeedBurner/)
+          # Gets (up to) 50 of the most recent photos ordered from new to old
+          @photos = Flickr.photosets_get_photos(params[:set_id]).reverse[0,50]
+        else # Otherwise, hand them off to feedburner to do all the hard work
+          redirect_to @rreset.feedburner_url
+        end
       end
     end
   end

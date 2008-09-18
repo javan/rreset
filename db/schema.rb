@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080915175139) do
+ActiveRecord::Schema.define(:version => 20080918001123) do
 
   create_table "rresets", :force => true do |t|
     t.integer  "user_id",                :limit => 11
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20080915175139) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "newest_flickr_photo_id"
+    t.string   "feedburner_url"
   end
 
   add_index "rresets", ["user_id"], :name => "index_rresets_on_user_id"
