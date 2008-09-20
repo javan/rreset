@@ -1,4 +1,10 @@
-<%- title("#{photo_title(@photo)}, part of the &#8220;#{@rreset.flickr_title}&#8221; rreset by #{@user.flickr_username}") -%>
+<%- 
+if @first_photo
+  title "#{@rreset.flickr_title} by #{@user.display_name}"
+else
+  title "#{photo_title(@photo)}, part of the &#8220;#{@rreset.flickr_title}&#8221; rreset by #{@user.display_name}"
+end
+-%>
 
 <p id="photo">
   <%- script_image_tag = '<img src="" id="script_photo" />' -%>
