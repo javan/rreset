@@ -21,7 +21,7 @@ class Test::Unit::TestCase
   def self.should_require_authentication(expression)
     context "Ensuring authentication redirection for #{expression}" do
       setup { lambda { eval(expression) }.bind(self).call }
-      should_set_the_flash_to /authenticate/i
+      should_set_the_flash_to /log in/i
       should_redirect_to 'root_path'
     end
   end
