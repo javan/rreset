@@ -27,6 +27,7 @@ class Rreset < ActiveRecord::Base
   validates_presence_of :user_id, :flickr_farm, :flickr_photos, :flickr_primary, :flickr_server, :flickr_secret, :flickr_id, :newest_flickr_photo_id
   validate :user_owns_set
   before_validation_on_create :set_newest_flickr_photo_id
+  after_destroy :clear_cache!
   
   def image_path(size = :m)
     "http://farm#{flickr_farm}.static.flickr.com/#{flickr_server}/#{flickr_primary}_#{flickr_secret}_#{size}.jpg"
@@ -51,11 +52,16 @@ class Rreset < ActiveRecord::Base
     self.flickr_owner ||= self.user.flickr_nsid
     # Imporant to call validate to fire off the before_validation callback
     self.update_attributes!(new_rreset.attributes) if new_rreset.valid?
+    self.clear_cache!
     self
   end
   
   def needs_syncing?
     self.updated_at < 3.hours.ago
+  end
+  
+  def clear_cache!
+    FileUtils.rm_r File.join(RAILS_ROOT, 'tmp', 'cache', 'photosets', self.flickr_id)
   end
   
 private
@@ -68,4 +74,5 @@ private
   def set_newest_flickr_photo_id
     self.newest_flickr_photo_id = Flickr.photosets_get_photos("#{self.flickr_id}").last[:id] if self.flickr_id
   end
+
 end

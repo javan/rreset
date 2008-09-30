@@ -6,7 +6,7 @@ class Flickr
   API_KEY       = RRESET_CONFIG['flickr']['api_key']
   SECRET        = RRESET_CONFIG['flickr']['secret']
   
-  attr_accessor :params, :signed_request, :method
+  attr_accessor :params, :signed_request, :method, :cache_key
   
   # Raised when there's a problem connecting to Flickr
   class ConnectionError < StandardError
@@ -22,6 +22,7 @@ class Flickr
     @endpoint = self.class.const_get("#{options[:type].to_s.upcase}_ENDPOINT".to_sym)
     @method = options[:method] || nil
     @signed_request = options[:signed_request] || false
+    @cache_key = options[:cache_key] || false
   end
   
   def self.login_url
@@ -85,17 +86,19 @@ class Flickr
     ).send(:invoke!).delete_if { |key, value| value[:id] == '0' }
   end
   
-  def self.photos_get_info(photo_id)
+  def self.photos_get_info(photo_id, photoset_id = nil)
     self.new(
       :method => 'flickr.photos.getInfo',
-      :params => { :photo_id => photo_id }
+      :params => { :photo_id => photo_id },
+      :cache_key => File.join('photosets', photoset_id, photo_id, 'info')
     ).send(:invoke!)[:photo]
   end
   
-  def self.photos_get_sizes(photo_id)
+  def self.photos_get_sizes(photo_id, photoset_id = nil)
     self.new(
       :method => 'flickr.photos.getSizes',
-      :params => { :photo_id => photo_id }
+      :params => { :photo_id => photo_id },
+      :cache_key => File.join('photosets', photoset_id, photo_id, 'sizes')
     ).send(:invoke!)[:sizes][:size].inject({}) { |result, size| result[size['label'].downcase.to_sym] = size.symbolize_keys; result }
   end
   
@@ -121,13 +124,24 @@ private
   end
   
   def invoke!
-    xml = Rails.cache.fetch(build_url) { get(build_url) }
-    resp = Hash.from_xml(xml).symbolize_keys! rescue false
+    resp = parse_xml
     if resp && resp[:rsp] && resp[:rsp][:stat] == 'ok'
       return resp[:rsp]
     else
       raise ConnectionError.new((resp[:rsp][:err][:msg] rescue nil))
     end
+  end
+  
+  def parse_xml
+    api_response = Proc.new { get(build_url) }
+    
+    xml = if @cache_key
+      Rails.cache.fetch(@cache_key) { api_response.call }
+    else
+      api_response.call
+    end
+    
+    Hash.from_xml(xml).symbolize_keys! rescue false
   end
   
   def get(url)

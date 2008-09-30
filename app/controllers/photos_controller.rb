@@ -16,8 +16,8 @@ class PhotosController < ApplicationController
       load_context
     end
     
-    @photo   = Flickr.photos_get_info(params[:id])
-    @sizes   = Flickr.photos_get_sizes(params[:id])
+    @photo   = Flickr.photos_get_info(params[:id], params[:set_id])
+    @sizes   = Flickr.photos_get_sizes(params[:id], params[:set_id])
     @license = Flickr.photos_licenses_get_info(@photo[:license])
   end
   

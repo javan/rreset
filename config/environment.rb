@@ -15,6 +15,7 @@ RRESET_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/rreset.yml")[Rails.env.down
 
 Rails::Initializer.run do |config|
   
+  config.cache_store = :file_store, File.join(RAILS_ROOT, 'tmp', 'cache')
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
