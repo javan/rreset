@@ -6,7 +6,7 @@ class FlickrTest < ActiveSupport::TestCase
       @flickr = Flickr.new
     end
     
-    should_have_instance_methods :params, :signed_request, :params=, :signed_request=, :method, :method=
+    should_have_instance_methods :params, :signed_request, :params=, :signed_request=, :method, :method=, :cache_key, :cache_key=
     
     context 'when building the url it' do
       should 'contain the api key' do
@@ -167,6 +167,34 @@ class FlickrTest < ActiveSupport::TestCase
       @sizes = Flickr.photos_get_sizes('photo_id')
       assert_instance_of Hash, @sizes
       assert @sizes.keys.include?(:thumbnail)
+    end
+  end
+  
+  context 'A Flickr instance that caches' do
+    setup do
+      @cache_key = File.join('test', 'photosets', '1', 'info')
+      mock_flickr_call('flickr_photos_get_info')
+      ActionController::Base.expects(:cache_configured?).returns(true) # Make sure the caching happens
+      
+      @flickr = Flickr.new(
+        :method => 'flickr.photos.getInfo',
+        :params => { :photo_id => 1 },
+        :cache_key => @cache_key
+      ).send(:invoke!)
+    end
+    
+    should 'create a cached file of the api response where we expect it to' do
+      assert File.exists?(File.join(RAILS_ROOT, 'tmp', 'cache', "#{@cache_key}.cache"))
+    end
+    
+    should 'cache a valid xml file' do
+      xml = Hash.from_xml(File.read(File.join(RAILS_ROOT, 'tmp', 'cache', "#{@cache_key}.cache")))
+      assert_instance_of Hash, xml
+    end
+    
+    teardown do
+      # Remove the cache files
+      FileUtils.rm_r(File.join(RAILS_ROOT, 'tmp', 'cache', 'test'))
     end
   end
 end

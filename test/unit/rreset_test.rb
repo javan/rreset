@@ -10,6 +10,14 @@ class RresetTest < ActiveSupport::TestCase
     should_belong_to :user
     should_require_attributes :user_id, :flickr_farm, :flickr_photos, :flickr_primary, :flickr_server, :flickr_secret, :flickr_id
     
+    should 'remove any cached files when destroyed' do
+      test_cache_path = File.join('photosets', @rreset.flickr_id)
+      Rails.cache.fetch(File.join(test_cache_path, 'key')) { "I'm a cached string" }
+      assert File.directory?(File.join(RAILS_ROOT, 'tmp', 'cache', test_cache_path))
+      @rreset.destroy
+      assert !File.exists?(File.join(RAILS_ROOT, 'tmp', 'cache', test_cache_path))
+    end
+    
   end
   
   context 'A Rreset syncing with Flickr' do
@@ -26,7 +34,7 @@ class RresetTest < ActiveSupport::TestCase
     
     context "when it is out of date" do
       setup do
-        @change_to = 5.hours.ago
+        @change_to = 10.hours.ago
         # To change set the updated_at in the past we have to turn off automatic timestamping
         Rreset.record_timestamps = false
         @rreset.update_attribute(:updated_at, @change_to)

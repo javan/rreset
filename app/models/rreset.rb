@@ -57,11 +57,12 @@ class Rreset < ActiveRecord::Base
   end
   
   def needs_syncing?
-    self.updated_at < 3.hours.ago
+    self.updated_at < 6.hours.ago
   end
   
   def clear_cache!
-    FileUtils.rm_r File.join(RAILS_ROOT, 'tmp', 'cache', 'photosets', self.flickr_id)
+    cached_photoset = File.join(RAILS_ROOT, 'tmp', 'cache', 'photosets', self.flickr_id)
+    FileUtils.rm_r(cached_photoset) if File.exists?(cached_photoset)
   end
   
 private

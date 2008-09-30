@@ -86,7 +86,7 @@ class Flickr
     ).send(:invoke!).delete_if { |key, value| value[:id] == '0' }
   end
   
-  def self.photos_get_info(photo_id, photoset_id = nil)
+  def self.photos_get_info(photo_id, photoset_id = '')
     self.new(
       :method => 'flickr.photos.getInfo',
       :params => { :photo_id => photo_id },
@@ -94,7 +94,7 @@ class Flickr
     ).send(:invoke!)[:photo]
   end
   
-  def self.photos_get_sizes(photo_id, photoset_id = nil)
+  def self.photos_get_sizes(photo_id, photoset_id = '')
     self.new(
       :method => 'flickr.photos.getSizes',
       :params => { :photo_id => photo_id },
@@ -135,7 +135,7 @@ private
   def parse_xml
     api_response = Proc.new { get(build_url) }
     
-    xml = if @cache_key
+    xml = if @cache_key && ActionController::Base.cache_configured?
       Rails.cache.fetch(@cache_key) { api_response.call }
     else
       api_response.call
