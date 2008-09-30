@@ -5,12 +5,15 @@ class PhotosController < ApplicationController
     @user    = @rreset.user
     
     # If no photo id is provided, show the newest photo in the set
-    params[:id] ||= @rreset.newest_flickr_photo_id
+    if params[:id].nil? 
+      params[:id] = @rreset.newest_flickr_photo_id
+      @first_photo = true
+    end
     load_context
     
     # If we're on the newest photo, but the context tells us there's a next photo,
     # the rreset is out of sync with flickr so update it
-    if @context[:nextphoto] && params[:id] == @rreset.newest_flickr_photo_id
+    if @context[:nextphoto] && @first_photo
       @rreset.sync_with_flickr!
       params[:id] = @rreset.newest_flickr_photo_id
       load_context

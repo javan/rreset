@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <%= stylesheet_link_tag 'rreset' %>
 <!--[if lt IE 7]><%= stylesheet_link_tag 'ie6_hacks' %><![endif]-->
-<script type="text/javascript" charset="utf-8" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript" charset="utf-8" src="http://www.google.com/jsapi?key=<%= RRESET_CONFIG['google_maps_api_key'] %>"></script>
 <script type="text/javascript" charset="utf-8">google.load('jquery', '1');</script>
 <%= javascript_include_tag 'rreset' %>
 <%= yield :head %>
