@@ -5,6 +5,9 @@ class RresetsController < ApplicationController
   def index
     @user = User.find_by_flickr_nsid(params[:nsid], :include => :rresets)
     raise ActiveRecord::RecordNotFound if @user.nil?
+    
+    # If the user just has one shared photoset, jump right to it
+    redirect_to set_path(:set_id => @user.rresets.first.flickr_id) if @user.rresets.one?
   end
   
   def show

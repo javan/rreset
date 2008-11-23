@@ -3,11 +3,6 @@
 
 <% if @user.rresets.size.zero? %>
   <p>It doesn&rsquo;t look like <%= @user.display_name %> has any rresets to share.</p>
-<% elsif @user.rresets.size == 1 %>
-  <p>Here is <%= @user.display_name %>&rsquo;s one lonely rreset.</p>
-  <div id="solo_rreset">
-    <%= render :partial => @user.rresets %>
-  </div>
 <% else %>
   <p>Here are <%= @user.display_name %>&rsquo;s rresets.</p>
   <div class="fluid_container margin_top_20">

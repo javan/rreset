@@ -71,6 +71,49 @@ class RresetsControllerTest < ActionController::TestCase
     end
   end
   
+  context 'Viewing the Rresets of a user with just one shared Rreset' do
+    setup do
+      expects_set_newest_flickr_photo_id do
+        @rreset = Factory.create(:rreset)
+      end
+      @user = @rreset.user
+      assert_equal 1, @user.rresets.size
+      
+      get :index, :nsid => @user.flickr_nsid
+    end
+    
+    should_not_set_the_flash
+    should_redirect_to "set_path(:set_id => @rreset.flickr_id)"
+  end
+  
+  context 'Viewing the Rresets of a user with more than one (2) shared Rresets' do
+    setup do
+      expects_set_newest_flickr_photo_id do
+        @rreset = Factory.create(:rreset)
+      end
+      
+      @user = @rreset.user
+      
+      expects_set_newest_flickr_photo_id do
+        Factory.create(:rreset, :user => @user)
+      end
+      
+      assert_equal 2, @user.rresets.size
+      
+      get :index, :nsid => @user.flickr_nsid
+    end
+    
+    should_render_template :index
+    should_respond_with :success
+    should_not_set_the_flash
+    
+    should "render all of the User's Rresets" do
+      @user.rresets.each do |rreset|
+        assert_select "#rreset_#{rreset.id}"
+      end
+    end
+  end
+  
   
 private
 
@@ -98,9 +141,15 @@ private
   def setup_destroy_scenario
     @user = Factory.create(:user)
     login_as(@user)
-    Flickr.expects(:photosets_get_photos).returns([{:id => '2620994337'}])
-    @rreset = Factory.create(:rreset, :user => @user)
+    expects_set_newest_flickr_photo_id do
+      @rreset = Factory.create(:rreset, :user => @user)
+    end
     @count = Rreset.count
+  end
+  
+  def expects_set_newest_flickr_photo_id
+    Flickr.expects(:photosets_get_photos).returns([{:id => '2620994337'}])
+    yield
   end
   
 end
