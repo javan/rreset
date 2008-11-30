@@ -7,7 +7,7 @@ class RresetsController < ApplicationController
     raise ActiveRecord::RecordNotFound if @user.nil?
     
     # If the user just has one shared photoset, jump right to it
-    redirect_to set_path(:set_id => @user.rresets.first.flickr_id) if @user.rresets.one?
+    redirect_to set_path(:set_id => @user.rresets.first.flickr_id) if @user.rresets.size == 1
   end
   
   def show
