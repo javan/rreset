@@ -1,3 +1,5 @@
 == Rreset
 
-Rreset is an open-source rails app built on the Flickr API to display Flickr photosets in a customizable photoblog-like fashion. You can see it in action at http://rreset.com/.
+Rreset is an open-source rails app built on the Flickr API to display Flickr photosets in a customizable photoblog-like fashion.
+
+This project was superseded by http://github.com/javan/rreset_sinatra
